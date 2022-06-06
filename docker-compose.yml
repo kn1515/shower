@@ -7,4 +7,4 @@ services:
     container_name: app
     volumes:
       - ./app:/usr/src/app
-    command: flask run --host=0.0.0.0
+    command: bash -c "python3 /usr/src/app/dbGen.py && flask run --host=0.0.0.0"

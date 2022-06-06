@@ -18,12 +18,27 @@
   	<p class="display-3">Slides</p>
   	<hr size="10" noshade="">
 
-  	<div class="jumbotron jumbotron-fluid">
-  	  <div class="container">
-  	    <h1 class="display-4">Not Found</h1>
-  	    <p class="lead">Please wait...</p>
-  	  </div>
-  	</div>  	
+        <table>
+          <thead>
+          <tr>
+          <th>id</th>
+          <th>filename</th>
+          <th>filesize</th>
+          <th>upload_date</th>
+          </tr>
+          </thead>
+          <tbody>
+          {% for file in files %}
+          <tr>
+            <td>{{ file.id }} </td>
+            <td><a href="/uploads/{{file.filename}}">{{ file.filename }}</a></td>
+            <td>{{ file.filesize }} </td>
+            <td>{{ file.upload_date }} </td>
+           </tr>
+           {% endfor %}
+           </tbody>
+         </table>
+
 
   	{%- include "footer.html" %}
   </body>

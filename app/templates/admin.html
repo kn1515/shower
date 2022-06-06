@@ -17,7 +17,7 @@
 
   	<p class="display-3">Admin</p>
   	<br>
-	<form method="POST" action="/uploads" enctype="multipart/form-data">
+	<form method="POST" action="/admin" enctype="multipart/form-data">
   	  <div class="col-xs-4">
   	    <label for="userName" class="form-label">User Name</label>
   	    <input style="width:150px;" class="form-control" placeholder="Your Name" name="username" type="text"/>
@@ -32,6 +32,47 @@
   	  <br>
   	 <button type="submit" class="btn btn-primary">Submit</button>
   	</form>
+
+        <br>
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <ul class="list-group flashes">
+        {% for message in messages %}
+          <li style="width:480px;" class="text-center list-group-item list-group-item-warning">{{ message }}</li>
+        {% endfor %}
+        </ul>
+        {% endif %}
+        {% endwith %}
+
+        {% if fileurl %}
+        <p>アップロードに成功しました。</p>
+        <p>ダウンロードURL:<b><a href="/uploads/{{fileurl}}">{{fileurl}}</a></b></p>
+        {% endif %}
+
+        <table>
+          <thead>
+          <tr>
+          <th>id</th>
+          <th>filename</th>
+          <th>filesize</th>
+          <th>upload_date</th>
+            <th>管理</th>
+          </tr>
+          </thead>
+          <tbody>
+          {% for file in files %}
+          <tr>
+            <td>{{ file.id }} </td>
+            <td><a href="/uploads/{{file.filename}}">{{ file.filename }}</a></td>
+            <td>{{ file.filesize }} </td>
+            <td>{{ file.upload_date }} </td>
+            <td>
+              <button onClick="if(confirm('本当に削除しますか？')){location.href = 'delete/{{file.id}}';}">削除</button>
+            </td>
+           </tr>
+           {% endfor %}
+           </tbody>
+         </table>
 
   	{%- include "footer.html" %}
   </body>
