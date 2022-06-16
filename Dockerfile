@@ -5,5 +5,7 @@ ENV FLASK_APP=app
 
 COPY /app/requirements.txt ./
 
-RUN pip install --upgrade pip
-RUN pip install -r requirements.txt
+RUN pip install --upgrade pip \
+&& pip install -r requirements.txt \
+&& apt-get update -y --no-install-recommends \
+&& apt-get install -y --no-install-recommends poppler-utils
