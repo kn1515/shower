@@ -3,12 +3,10 @@
 ![image](https://user-images.githubusercontent.com/53372440/174102395-22f29a04-553f-4b33-800c-bf495f9ef8ec.png)
 
 - Open source SlideShare Alternative
-- Do not make this app public on the Internet.
-
 - If you like or use this project, please provide feedback to author - Star it ★
 
 ## Notice
-- TBD
+- Do not make this app public on the Internet.
 
 ## Features
 - View your presentation on the browser.
