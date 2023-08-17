@@ -13,31 +13,76 @@
   <body>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
+        <!-- Axios -->
+        <script src="https://cdn.jsdelivr.net/npm/axios@0.21.1/dist/axios.min.js"></script>
+
+        <script src="{{ url_for('static', filename='getStars_idx.js') }}"></script>
+
+        <style>
+        h1 {
+          position: relative;
+          background: #dfefff;
+          box-shadow: 0px 0px 0px 5px #dfefff;
+          border: dashed 2px white;
+          padding: 0.2em 0.5em;
+          color: #454545;
+       }
+
+        h1:after {
+          position: absolute;
+          content: '';
+          left: -7px;
+          top: -7px;
+          border-width: 0 0 15px 15px;
+          border-style: solid;
+          border-color: #fff #fff #a8d4ff;
+          box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.15);
+        }
+
+        .pagination-page-info {
+          padding: .6em;
+          padding-left: 0;
+          width: 40em;
+          margin: .5em;
+          margin-left: 0;
+         font-size: 12px;
+        }
+
+        .pagination-page-info b {
+          color: black;
+          background: #6aa6ed;
+          padding-left: 2px;
+          padding: .1em .25em;
+          font-size: 150%;
+        }
+        </style>
+
   	{%- include "header.html" %}
 
-  	<p class="display-3">Slides</p>
-  	<hr size="10" noshade="">
+  	<h1 class="display-3">Slides</h1>
+        <br>
 
-        <table>
-          <thead>
-          <tr>
-          <th>id</th>
-          <th>filename</th>
-          <th>filesize</th>
-          <th>upload_date</th>
-          </tr>
-          </thead>
-          <tbody>
+        {% set ns_files = namespace(files_cnt = 1) %}
+        <div class="container" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; grid-template-rows: repeat(3, 1fr);">
           {% for file in files %}
-          <tr>
-            <td>{{ file.id }} </td>
-            <td><a href="/uploads/{{file.filename}}">{{ file.filename }}</a></td>
-            <td>{{ file.filesize }} </td>
-            <td>{{ file.upload_date }} </td>
-           </tr>
-           {% endfor %}
-           </tbody>
-         </table>
+            <div class="card">
+            <a href="/carousel/{{file.id}}"><img class="card-img-top" src="/images/{{ file.filename }}/{{ file.filename }}-1.png" alt="..."></a>
+              <div class="card-body">
+                <h5 class="card-title">{{file.theme}}</h5>
+                <h6 class="card-title">Author: {{file.author}}</h6>
+                  <div style="text-align: right">
+                    <p class="card-text">
+                      <a href="javascript:getStars({{ file.id }});"><div id="stars{{ file.id }}" style="display:inline;"><img src="{{ url_for('static', filename='favorite.svg') }}"></div></a>
+                      {%- include "modal.html" %}
+                      <a href="/uploads/{{file.filename}}"><img src="{{ url_for('static', filename='file_download.png') }}"></a>
+                    </p>
+                  </div>
+                <p class="card-text"><small class="text-muted">{{ file.upload_date }}</small></p>
+              </div>
+            </div>
+          {% set ns_files.files_cnt = ns_files.files_cnt + 1 %}
+          {% endfor %}
+        </div>
 
 	 {% for file in files %}
 	 <div class="card" style="width: 18rem;">
@@ -49,6 +94,10 @@
 	   </div>
 	 </div>
 	 {% endfor %}
+
+        {% if not files %}
+          <h2 class="display-3">Not Found&#x1f644;</h2>
+        {% endif %}
 
   	{%- include "footer.html" %}
   </body>
